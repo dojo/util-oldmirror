@@ -915,10 +915,38 @@ doh.is = doh.assertEqual = function(/*Object*/ expected, /*Object*/ actual, /*St
 		(this._objPropEq(expected, actual)) ){
 		return true;
 	}
+
+    if(typeof expected == "object") {
+        expected = doh._objToJsonStr(expected);
+    }
+
+    if(typeof actual == "object") {
+        actual = doh._objToJsonStr(actual);
+    }
+
 	if (doNotThrow) {
 		return false;
 	}
 	throw new doh._AssertFailure("assertEqual() failed:\n\texpected\n\t\t"+expected+"\n\tbut got\n\t\t"+actual+"\n\n", hint);
+};
+
+doh._objToJsonStr = function(/*Object*/ obj) {
+    // summary:
+    //      format the object for output. Only goes through 10
+    //      attributes max
+    var output = "{\n";
+    var count = 0;
+    for(var key in obj) {
+        if(count >= 10){
+            output += "\t\t\t ... limit reached\n";
+            break;
+        }
+        output += "\t\t\t" + key + ": " + obj[key] + "\n";
+        count += 1;
+    }
+
+    output += "\t\t}";
+    return output;
 };
 
 doh.isNot = doh.assertNotEqual = function(/*Object*/ notExpected, /*Object*/ actual, /*String?*/ hint){
