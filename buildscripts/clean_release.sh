@@ -9,12 +9,12 @@
 
 releaseDir=$1;
 if [ "$releaseDir" = "" ]; then
-	releaseDir = ../../release
+	releaseDir=../../release
 fi
 
 buildName=$2;
 if [ "$buildName" = "" ]; then
-	buildName = dojo
+	buildName=dojo
 fi
 
 rm_dojo_files ()
@@ -34,7 +34,7 @@ rm_dojo_files ()
 
 if [ -d $releaseDir ]; then
 
-	cd $releaseDir
+	pushd $releaseDir
 
 	# remove dojox tests and demos - they all follow this convention
 	for i in $buildName/dojox/* 
@@ -91,7 +91,7 @@ if [ -d $releaseDir ]; then
 	# last but not least
 	# rm_dojo_files "dojo/build.txt"
 	
-	cd ../util/buildscripts/
+	popd
 
 fi
 
