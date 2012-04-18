@@ -152,7 +152,7 @@ define([
 				layerText= writeAmd.getLayerText(0, resource.layer.include, resource.layer.exclude, resource.layer.noref),
 
 				// 1.6 compat chunk
-				compat = (resource.layer.compat=="1.6" && resource.layer.include.length) ? "require(" + json.stringify(resource.layer.include) + ");" + bc.newline : "";
+				compat = (resource.layer.compat=="1.6" && resource.layer.include.length) ? "global.require(" + json.stringify(resource.layer.include) + ");" + bc.newline : "";
 
 			// assemble and write the dojo layer
 			resource.layerText= resource.getText() + configText + stampVersion(layerText) + (bc.dojoBootText || dojoBootText) + compat;
@@ -163,7 +163,7 @@ define([
 				// don't process the dojo layer, which is === resource
 				if(item!==resource){
 					// each item is a hash of include, exclude, boot, bootText
-					var compat = (item.layer.compat=="1.6" && item.layer.include.length) ? "require(" + json.stringify(item.layer.include) + ");" + bc.newline : "";
+					var compat = (item.layer.compat=="1.6" && item.layer.include.length) ? "global.require(" + json.stringify(item.layer.include) + ");" + bc.newline : "";
 					item.layerText= resource.layerText + writeAmd.getLayerText(item, item.layer.include, item.layer.exclude, true) + (item.bootText || "") + compat;
 					doWrite(writeAmd.getDestFilename(item), resource.layer.copyright + item.layerText);
 				}

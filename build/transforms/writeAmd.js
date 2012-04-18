@@ -180,7 +180,7 @@ define(["../buildControl", "../fileUtils", "../fs", "dojo/_base/lang", "dojo/jso
 			if(cache.length && noref){
 				cache.push("'*noref':1");
 			}
-			cache = cache.length ? "require({cache:{" + newline + cache.join("," + newline) + "}});" + newline : "";
+			cache = cache.length ? "global.require({cache:{" + newline + cache.join("," + newline) + "}});" + newline : "";
 
 			// compute the flattened NLS bundles if required
 			if(resource && bc.localeList && rootBundles.length && resource.flattenedNlsBundles===undefined){
@@ -225,7 +225,7 @@ define(["../buildControl", "../fileUtils", "../fs", "dojo/_base/lang", "dojo/jso
 					cache.push(getCacheEntry(dep.internStrings()));
 				}
 			});
-			return cache.length ? "require({cache:{" + newline + cache.join("," + newline) + "}});" + newline : "";
+			return cache.length ? "global.require({cache:{" + newline + cache.join("," + newline) + "}});" + newline : "";
 		},
 
 		getDestFilename= function(resource){
@@ -300,7 +300,7 @@ define(["../buildControl", "../fileUtils", "../fs", "dojo/_base/lang", "dojo/jso
 				}
 				text= resource.layerText= getLayerText(resource, resource.layer.include, resource.layer.exclude, resource.layer.noref);
 				if(resource.layer.compat=="1.6"){
-					text= resource.layerText= text + "require(" + json.stringify(resource.layer.include) + ");" + bc.newline;
+					text= resource.layerText= text + "global.require(" + json.stringify(resource.layer.include) + ");" + bc.newline;
 				}
 
 				copyright= resource.layer.copyright || "";
